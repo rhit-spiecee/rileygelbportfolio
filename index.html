@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --black: #0e0e0e;
+            --dark:  #1a1a1a;
+            --mid:   #444;
+            --light: #888;
+            --rule:  #e2e2e2;
+            --bg:    #f9f9f7;
+            --white: #fff;
+            --accent:#1c4f96;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--black);
+            font-size: 15px;
+            line-height: 1.65;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5rem;
+            height: 58px;
+            background: rgba(249,249,247,0.93);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .nav-name {
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-size: 0.78rem;
+            color: var(--light);
+            letter-spacing: 0.04em;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--black); }
+
+        /* HERO */
+        .hero {
+            padding: 140px 5rem 100px;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 6rem;
+            align-items: end;
+            border-bottom: 1px solid var(--rule);
+            background: var(--white);
+        }
+
+        .hero-left h1 {
+            font-family: 'Libre Baskerville', serif;
+            font-size: clamp(2.2rem, 4vw, 3.4rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.4rem;
+        }
+
+        .hero-left p {
+            font-size: 0.97rem;
+            color: var(--mid);
+            max-width: 500px;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-meta-item span {
+            display: block;
+            font-size: 0.7rem;
+            color: var(--light);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        .hero-meta-item strong {
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .hero-photo-placeholder {
+            width: 100%;
+            aspect-ratio: 3/4;
+            background: #e8e8e4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            color: #aaa;
+        }
+
+        .hero-photo-placeholder svg { width: 30px; height: 30px; opacity: 0.45; }
+        .hero-photo-placeholder span { font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; }
+
+        /* SECTIONS */
+        .section {
+            padding: 80px 5rem;
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: baseline;
+            gap: 1.2rem;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.45rem;
+            font-weight: 700;
+        }
+
+        .section-header .count {
+            font-size: 0.75rem;
+            color: var(--light);
+        }
+
+        /* ABOUT */
+        #about { background: var(--white); }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+        }
+
+        .about-body p {
+            font-size: 0.93rem;
+            color: var(--mid);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .tag-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+            margin-top: 1.8rem;
+        }
+
+        .tag {
+            padding: 0.28rem 0.8rem;
+            border: 1px solid var(--rule);
+            font-size: 0.73rem;
+            color: var(--mid);
+            border-radius: 2px;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .tag:hover { border-color: var(--accent); color: var(--accent); }
+
+        .edu-block {
+            border-top: 1px solid var(--rule);
+            padding-top: 1.3rem;
+            margin-top: 1.3rem;
+        }
+
+        .edu-block:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+
+        .edu-block h3 {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--dark);
+            margin-bottom: 0.2rem;
+        }
+
+        .edu-block p { font-size: 0.82rem; color: var(--light); }
+
+        /* EXPERIENCE */
+        #experience { background: var(--bg); }
+
+        .exp-item {
+            display: grid;
+            grid-template-columns: 190px 1fr;
+            gap: 3rem;
+            padding: 2.2rem 0;
+            border-top: 1px solid var(--rule);
+        }
+
+        .exp-item:first-child { border-top: none; }
+
+        .exp-meta .company {
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .exp-meta .date {
+            font-size: 0.74rem;
+            color: var(--light);
+            line-height: 1.55;
+        }
+
+        .exp-meta .incoming {
+            display: inline-block;
+            margin-top: 0.6rem;
+            font-size: 0.67rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent);
+            border: 1px solid rgba(28,79,150,0.3);
+            padding: 0.2rem 0.5rem;
+            border-radius: 2px;
+        }
+
+        .exp-content h3 {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 0.9rem;
+        }
+
+        .exp-content ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .exp-content ul li {
+            font-size: 0.87rem;
+            color: var(--mid);
+            padding-left: 1rem;
+            position: relative;
+            line-height: 1.65;
+        }
+
+        .exp-content ul li::before {
+            content: '·';
+            position: absolute;
+            left: 0;
+            color: var(--light);
+        }
+
+        /* FIELD WORK */
+        #fieldwork { background: var(--white); }
+
+        .field-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .field-card {
+            border: 1px solid var(--rule);
+            transition: border-color 0.25s, transform 0.25s;
+        }
+
+        .field-card:hover {
+            border-color: #bbb;
+            transform: translateY(-3px);
+        }
+
+        .field-img-placeholder {
+            width: 100%;
+            height: 185px;
+            background: #e4e4e0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            color: #b0b0aa;
+        }
+
+        .field-img-placeholder svg { width: 26px; height: 26px; opacity: 0.4; }
+        .field-img-placeholder span { font-size: 0.67rem; letter-spacing: 0.08em; text-transform: uppercase; }
+
+        .field-body { padding: 1.2rem 1.4rem 1.5rem; }
+
+        .field-body .label {
+            font-size: 0.67rem;
+            color: var(--light);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.4rem;
+        }
+
+        .field-body h3 {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--dark);
+            margin-bottom: 0.45rem;
+            line-height: 1.4;
+        }
+
+        .field-body p {
+            font-size: 0.81rem;
+            color: var(--light);
+            line-height: 1.65;
+        }
+
+        /* ACTIVITIES */
+        #activities { background: var(--bg); }
+
+        .act-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            border: 1px solid var(--rule);
+        }
+
+        .act-item {
+            padding: 2rem;
+            border-right: 1px solid var(--rule);
+        }
+
+        .act-item:last-child { border-right: none; }
+
+        .act-item h3 {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--dark);
+            margin-bottom: 0.3rem;
+        }
+
+        .act-item .role {
+            font-size: 0.74rem;
+            color: var(--accent);
+            margin-bottom: 0.65rem;
+        }
+
+        .act-item p { font-size: 0.81rem; color: var(--light); line-height: 1.65; }
+
+        /* CONTACT */
+        #contact {
+            background: var(--white);
+            padding: 80px 5rem;
+        }
+
+        .contact-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .contact-left h2 {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.45rem;
+            font-weight: 700;
+            margin-bottom: 0.7rem;
+        }
+
+        .contact-left p {
+            font-size: 0.88rem;
+            color: var(--mid);
+            max-width: 340px;
+            line-height: 1.75;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.75rem;
+        }
+
+        .contact-links a {
+            font-size: 0.85rem;
+            color: var(--mid);
+            text-decoration: none;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .contact-links a:hover { color: var(--accent); }
+
+        /* FOOTER */
+        footer {
+            padding: 1.4rem 5rem;
+            border-top: 1px solid var(--rule);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        footer span { font-size: 0.73rem; color: var(--light); }
+
+        /* REVEAL */
+        .reveal {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.55s ease, transform 0.55s ease;
+        }
+
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* RESPONSIVE */
+        @media (max-width: 860px) {
+            nav { padding: 0 1.5rem; }
+            .hero, .section, #contact, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+            .hero { grid-template-columns: 1fr; }
+            .hero-photo-placeholder { display: none; }
+            .about-grid, .field-grid { grid-template-columns: 1fr; }
+            .act-grid { grid-template-columns: 1fr; }
+            .act-item { border-right: none; border-bottom: 1px solid var(--rule); }
+            .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+            .contact-inner { flex-direction: column; gap: 2rem; align-items: flex-start; }
+            .contact-links { align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <span class="nav-name">Civil Engineering Portfolio</span>
+    <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#fieldwork">Field Work</a></li>
+        <li><a href="#activities">Activities</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-left">
+        <h1>Civil Engineering<br>Student & Intern</h1>
+        <p>
+            I'm a Civil Engineering student at Rose-Hulman from Casey, Illinois. Last summer I worked at HWC Engineering doing stormwater design and field work on municipal projects. This summer I'll be a Field Engineer Intern at MasTec working on wind energy infrastructure.
+        </p>
+        <div class="hero-meta">
+            <div class="hero-meta-item">
+                <span>School</span>
+                <strong>Rose-Hulman Institute of Technology</strong>
+            </div>
+            <div class="hero-meta-item">
+                <span>Graduation</span>
+                <strong>May 2028</strong>
+            </div>
+            <div class="hero-meta-item">
+                <span>Hometown</span>
+                <strong>Casey, Illinois</strong>
+            </div>
+        </div>
+    </div>
+
+    <img src="img/Headhsot.jpg" style="width:100%;aspect-ratio:3/4;object-fit:cover;" />
+    <div class="hero-photo-placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        <span>Headshot — Image 1</span>
+    </div>
+</div>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+    <div class="section-header reveal"><h2>About</h2></div>
+    <div class="about-grid">
+        <div class="about-body reveal">
+            <p>
+                I'm studying Civil Engineering at Rose-Hulman and I'm interested in water resources, site development, and sustainable infrastructure. I like being involved in both the design side and what's actually happening out in the field.
+            </p>
+            <p>
+                At HWC Engineering I got to work on real municipal projects — running stormwater models in HydroCAD, sitting in on client meetings, helping put together permit applications, and spending time on job sites. This summer at MasTec I'll shift more toward the construction side, doing field engineering on large-scale wind energy projects.
+            </p>
+            <div class="tag-row">
+                <span class="tag">Stormwater Design</span>
+                <span class="tag">HydroCAD</span>
+                <span class="tag">Water Resources</span>
+                <span class="tag">Site Development</span>
+                <span class="tag">Field Engineering</span>
+                <span class="tag">Renewable Energy</span>
+                <span class="tag">Infrastructure</span>
+            </div>
+        </div>
+        <div class="reveal" style="transition-delay:0.1s">
+            <div class="edu-block">
+                <h3>Rose-Hulman Institute of Technology</h3>
+                <p>B.S. Civil Engineering · Terre Haute, IN · Expected May 2028</p>
+            </div>
+            <div class="edu-block">
+                <h3>NCAA Division III Football</h3>
+                <p>Played football while carrying a full engineering course load at Rose-Hulman.</p>
+            </div>
+            <div class="edu-block">
+                <h3>ASCE</h3>
+                <p>American Society of Civil Engineers — professional development and industry networking.</p>
+            </div>
+            <div class="edu-block">
+                <h3>Gamma Delta (FIJI)</h3>
+                <p>Rush Chair & New Member Education Chair</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="section" id="experience">
+    <div class="section-header reveal">
+        <h2>Experience</h2>
+        <span class="count">2 positions</span>
+    </div>
+
+    <div class="exp-item reveal" style="transition-delay:0.05s">
+        <div class="exp-meta">
+            <div class="company">MasTec Renewables & Energy</div>
+            <div class="date">Summer 2026</div>
+            <div class="incoming">Incoming</div>
+        </div>
+        <div class="exp-content">
+            <h3>Field Engineer Intern</h3>
+            <ul>
+                <li>Supporting field operations on a large-scale wind energy infrastructure project</li>
+                <li>Construction coordination, site layout, and project execution</li>
+                <li>QA/QC alongside contractors, engineers, and project managers in the field</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="exp-item reveal" style="transition-delay:0.1s">
+        <div class="exp-meta">
+            <div class="company">HWC Engineering</div>
+            <div class="date">June – August 2025<br>Terre Haute / Indianapolis</div>
+        </div>
+        <div class="exp-content">
+            <h3>Water Resource Intern</h3>
+            <ul>
+                <li>Modeled stormwater runoff and detention systems using HydroCAD</li>
+                <li>Worked with topographic and contour data to help with stormwater design decisions</li>
+                <li>Helped put together permit applications and proposals for state submission</li>
+                <li>Site visits for a municipal lift station — worked directly with contractors and engineers on site</li>
+                <li>Observed concrete placement and made sure things were being done per plan</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- FIELD WORK -->
+<section class="section" id="fieldwork">
+    <div class="section-header reveal">
+        <h2>Field Work</h2>
+    </div>
+    <div class="field-grid">
+
+        <img src="img/Rocks.jpg" class="field-img" style="width:100%;height:185px;object-fit:cover;" />
+        <div class="field-card reveal" style="transition-delay:0.05s">
+            <div class="field-img-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                <span>Image 4</span>
+            </div>
+            <div class="field-body">
+                <div class="label">HWC Engineering · Summer 2025</div>
+                <h3>Water Resource Internship</h3>
+                <p>Stormwater modeling, permit applications, and site work on municipal infrastructure projects in Terre Haute and Indianapolis.</p>
+            </div>
+        </div>
+
+         <img src="img/Rebar.jpg" class="field-img" style="width:100%;height:185px;object-fit:cover;" />
+        <div class="field-card reveal" style="transition-delay:0.1s">
+            <div class="field-img-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                <span>Image 2</span>
+            </div>
+            <div class="field-body">
+                <div class="label">Stormwater Design</div>
+                <h3>Sycamore Storage Development</h3>
+                <p>Sat in on client meetings and helped work through early-stage stormwater drainage and runoff design.</p>
+            </div>
+        </div>
+
+        <img src="img/HWC.jpg" class="field-img" style="width:100%;height:185px;object-fit:cover;" />
+        <div class="field-card reveal" style="transition-delay:0.15s">
+            <div class="field-img-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                <span>Image 3</span>
+            </div>
+            <div class="field-body">
+                <div class="label">Municipal Infrastructure</div>
+                <h3>Lift Station Site Observation</h3>
+                <p>Visited the job site during a municipal lift station project. Watched concrete placement and worked with the crew to make sure things lined up with the plans.</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ACTIVITIES -->
+<section class="section" id="activities">
+    <div class="section-header reveal"><h2>Activities</h2></div>
+    <div class="act-grid reveal" style="transition-delay:0.08s">
+        <div class="act-item">
+            <h3>NCAA Division III Football</h3>
+            <div class="role">Rose-Hulman Institute of Technology</div>
+            <p>Balanced a full engineering workload with competitive football — a lot of early mornings and learning how to manage time under pressure.</p>
+        </div>
+        <div class="act-item">
+            <h3>Gamma Delta (FIJI)</h3>
+            <div class="role">Rush Chair · New Member Education Chair</div>
+            <p>Led recruitment and ran onboarding for new members. Planned events and helped people get integrated into the house.</p>
+        </div>
+        <div class="act-item">
+            <h3>ASCE</h3>
+            <div class="role">American Society of Civil Engineers</div>
+            <p>Attended professional development events and met engineers working in the field. Good way to stay connected to the industry outside of class.</p>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+    <div class="contact-inner reveal">
+        <div class="contact-left">
+            <h2>Get in touch</h2>
+            <p>Open to conversations about internships, projects, or anything civil engineering. Feel free to reach out.</p>
+        </div>
+        <div class="contact-links">
+            <a href="mailto:gelbrs@rose-hulman.edu">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                your@email.com
+            </a>
+            <a href="https://www.linkedin.com/in/riley-gelb-9095b9330/" target="_blank">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                LinkedIn
+            </a>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <span>Rose-Hulman Institute of Technology · Civil Engineering · Class of 2028</span>
+    <span>Casey, Illinois</span>
+</footer>
+
+<script>
+    const io = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
